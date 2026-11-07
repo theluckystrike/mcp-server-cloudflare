@@ -65,6 +65,8 @@ export function registerDocsTools<Env extends RequiredEnv>(context: McpRegistrat
 			annotations: {
 				title: 'Search Cloudflare docs',
 				readOnlyHint: true,
+				destructiveHint: false,
+				openWorldHint: false,
 			},
 		},
 		async ({ query }) => {
@@ -88,6 +90,8 @@ export function registerDocsTools<Env extends RequiredEnv>(context: McpRegistrat
 			annotations: {
 				title: 'Get Pages migration guide',
 				readOnlyHint: true,
+				destructiveHint: false,
+				openWorldHint: false,
 			},
 		},
 		async () => {

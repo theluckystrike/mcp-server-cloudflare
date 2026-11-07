@@ -152,4 +152,26 @@ Create a KV namespace.
 		})
 		expect(response.content[0].text).toContain('<result>')
 	})
+
+	it('declares every docs tool read-only, non-destructive and closed-world', () => {
+		const { instance } = makeAiSearch(aiSearchResponse)
+		const registeredTools = new Map<string, { options: any }>()
+		const registerTool = vi.fn((name: string, options: any) => {
+			registeredTools.set(name, { options })
+		})
+
+		registerDocsTools({ registerTool, env: { DOCS_AI_SEARCH: instance } } as any)
+
+		expect([...registeredTools.keys()]).toEqual([
+			'search_cloudflare_documentation',
+			'migrate_pages_to_workers_guide',
+		])
+		for (const { options } of registeredTools.values()) {
+			expect(options.annotations).toMatchObject({
+				readOnlyHint: true,
+				destructiveHint: false,
+				openWorldHint: false,
+			})
+		}
+	})
 })
